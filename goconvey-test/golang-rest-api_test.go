@@ -5,9 +5,9 @@ import (
 	. "github.com/smartystreets/goconvey/convey"
 	"net/http"
 	"net/http/httptest"
+	
 	"github.com/vipindasvg/golang-rest-api/router"
 	"github.com/vipindasvg/golang-rest-api/controller"
-	//"github.com/vipindasvg/golang-rest-api/entity"
 )
 
 var (
@@ -25,6 +25,16 @@ func TestGolangRestApi(t *testing.T) {
 			Convey("When requests run successfully", func() {
 				So(w.Code, ShouldEqual, 200)
 				Convey("Then User will get the posts", nil)
+			})
+		})
+
+		Convey("Given a requests for create posts", func() {
+			r, _ := http.NewRequest("POST", "/posts", nil)
+   			w := httptest.NewRecorder()
+			postController.GetPosts(w, r)
+			Convey("When requests run successfully", func() {
+				So(w.Code, ShouldEqual, 200)
+				Convey("Then User will create the post record", nil)
 			})
 		})
 	})

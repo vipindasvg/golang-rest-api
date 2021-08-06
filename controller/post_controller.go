@@ -4,9 +4,7 @@ import (
 	"math/rand"
 	"encoding/json"
 	"net/http"
-	//"./repository"
-	// entity "../entity"
-	// service "../service"
+	
 	"github.com/vipindasvg/golang-rest-api/entity"
 	"github.com/vipindasvg/golang-rest-api/service"
 )
