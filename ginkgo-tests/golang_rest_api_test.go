@@ -3,7 +3,7 @@ package main_test
 import (
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-	"github.com/onsi/gomega/ghttp"
+	//"github.com/onsi/gomega/ghttp"
 	"net/http"
 	"net/http/httptest"
 	"github.com/vipindasvg/golang-rest-api/router"
@@ -18,17 +18,7 @@ var (
 
 var _ = Describe("Testing GolangRestApi", func() {
 
-	Describe("fetching posts", func() {
-
-		// BeforeEach(func() {
-		// 	statusCode = http.StatusOK
-		// 	posts = []entity.Post{}
-		// 	server.AppendHandlers(ghttp.CombineHandlers(
-		// 		ghttp.VerifyRequest("GET", "/posts"),
-		// 		ghttp.RespondWithJSONEncodedPtr(&statusCode, &posts),
-		// 	))
-		// })
-
+	Describe("Given a request for fetching posts", func() {
 		When("requesting all posts", func() {
 			When("the response is successful", func() {
 				It("should return the posts", func() {
