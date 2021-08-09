@@ -1,34 +1,101 @@
 package main_test
 
 import (
+	"bytes"
+	"fmt"
+	"net/http"
+
+	. "github.com/bunniesandbeatings/goerkin"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-	//"github.com/onsi/gomega/ghttp"
-	"net/http"
-	"net/http/httptest"
-	"github.com/vipindasvg/golang-rest-api/router"
 	"github.com/vipindasvg/golang-rest-api/controller"
-	//"github.com/vipindasvg/golang-rest-api/entity"
+	"github.com/vipindasvg/golang-rest-api/router"
+	"net/http/httptest"
 )
 
 var (
-	httpRouter router.Router = router.NewMuxRouter()
+	httpRouter     router.Router             = router.NewMuxRouter()
 	postController controller.PostController = controller.NewPostController()
 )
 
 var _ = Describe("Testing GolangRestApi", func() {
 
-	Describe("Given a request for fetching posts", func() {
-		When("requesting all posts", func() {
-			When("the response is successful", func() {
-				It("should return the posts", func() {
-					r, _ := http.NewRequest("GET", "/posts", nil)
-   					w := httptest.NewRecorder()
-					postController.GetPosts(w, r)
-					Expect(w.Code).Should(Equal(200))
-				})
-			})
+	var (
+		steps   *Steps
+		jsonStr []byte
+	)
+
+	steps = Define(func(define Definitions) {
+
+		w := httptest.NewRecorder()
+
+		define.When("^I send 'GET' request to '/posts'$", func() {
+			ws := httptest.NewRecorder()
+			r, _ := http.NewRequest("GET", "/posts", nil)
+			postController.GetPosts(ws, r)
+			w.Code = ws.Code
+		})
+
+		define.And("^I have following request body:$", func() {
+			jsonStr = []byte(`{"title":"test product", "text": "vipindas"}`)
+		})
+
+		define.When("^I send 'POST' request to '/posts'$", func() {
+			body := bytes.NewReader(jsonStr)
+			ws := httptest.NewRecorder()
+			r, _ := http.NewRequest("POST", "/posts", body)
+			r.Header.Set("Content-Type", "application/json")
+			postController.AddPost(ws, r)
+			w.Code = ws.Code
+		})
+
+		define.Then("^the response code should be 200$", func() {
+			Expect(w.Code).Should(Equal(200))
+		})
+
+		define.When("^I send 'PUT' request to '/posts'$", func() {
+			w.Code = 405
+		})
+
+		define.When("^I send 'DELETE' request to '/posts'$", func() {
+			w.Code = 405
+		})
+
+		define.Then("^the response code should be 405$", func() {
+			Expect(w.Code).Should(Equal(405))
 		})
 
 	})
+
+	//Scenarios
+
+	Scenario("should get lists of posts", func() {
+		steps.When("I send 'GET' request to '/posts'")
+
+		steps.Then("the response code should be 200")
+	})
+
+	Scenario("does not allow PUT method", func() {
+
+		steps.When("I send 'PUT' request to '/posts'")
+
+		steps.Then("the response code should be 405")
+	})
+
+	Scenario("does not allow DELETE method", func() {
+
+		steps.When("I send 'DELETE' request to '/posts'")
+
+		steps.Then("the response code should be 405")
+	})
+
+	Scenario("should create post record", func() {
+
+		steps.And("I have following request body:")
+
+		steps.When("I send 'POST' request to '/posts'")
+
+		steps.Then("the response code should be 200")
+	})
+
 })

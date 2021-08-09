@@ -11,4 +11,3 @@ func TestGolangRestApi(t *testing.T) {
 	RegisterFailHandler(Fail)
 	RunSpecs(t, "GolangRestApi Suite")
 }
-

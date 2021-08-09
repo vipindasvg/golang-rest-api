@@ -4,6 +4,7 @@ go 1.14
 
 require (
 	cloud.google.com/go/firestore v1.5.0
+	github.com/bunniesandbeatings/goerkin v0.1.4-beta
 	github.com/cucumber/godog v0.10.0
 	github.com/cucumber/messages-go/v10 v10.0.3
 	github.com/gofrs/uuid v3.3.0+incompatible // indirect

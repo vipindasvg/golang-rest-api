@@ -1,7 +1,5 @@
 # file: posts.feature
-Feature: get version
-  In order to know godog version
-  As an API user
+Feature: get posts
   I need to be able to request list of posts
 
   Scenario: does not allow PUT method

@@ -4,6 +4,7 @@ import (
 	"math/rand"
 	"encoding/json"
 	"net/http"
+	"fmt"
 	
 	"github.com/vipindasvg/golang-rest-api/entity"
 	"github.com/vipindasvg/golang-rest-api/service"
@@ -38,8 +39,11 @@ func (*controller) GetPosts(resp http.ResponseWriter, req *http.Request) {
 }
 
 func (*controller) AddPost(resp http.ResponseWriter, req *http.Request)  {
+	fmt.Println("hi")
+	fmt.Println(req.Body)
 	var post entity.Post
 	err := json.NewDecoder(req.Body).Decode(&post)
+	fmt.Println(err)
 	if err != nil {
 		resp.WriteHeader(http.StatusInternalServerError)
 		resp.Write([]byte(`{"error":"Error Marshalling Post Array"}`))
@@ -47,12 +51,14 @@ func (*controller) AddPost(resp http.ResponseWriter, req *http.Request)  {
 	}
 	post.ID = rand.Int63()
 	err =postService.Validate(&post)
+	fmt.Println(err)
 	if err != nil {
 		resp.WriteHeader(http.StatusInternalServerError)
 		resp.Write([]byte(`{"error":"Validation error"}`))
 		return  
 	}
 	result, err :=	postService.Create(&post)
+	fmt.Println(err)
 	if err != nil {
 		resp.WriteHeader(http.StatusInternalServerError)
 		resp.Write([]byte(`{"error":"creation error"}`))
@@ -62,4 +68,5 @@ func (*controller) AddPost(resp http.ResponseWriter, req *http.Request)  {
 	resp.WriteHeader(http.StatusOK)
 	results, _ := json.Marshal(result)
 	resp.Write(results)
+	fmt.Println(results)
 }

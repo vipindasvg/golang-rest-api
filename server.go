@@ -8,14 +8,13 @@ import (
 	//"github.com/gorilla/mux"
 	// router "./http"
 	// controller "./controller"
-	"github.com/vipindasvg/golang-rest-api/router"
 	"github.com/vipindasvg/golang-rest-api/controller"
-	
+	"github.com/vipindasvg/golang-rest-api/router"
 )
 
 var (
 	postController controller.PostController = controller.NewPostController()
-	httpRouter router.Router = router.NewMuxRouter()
+	httpRouter     router.Router             = router.NewMuxRouter()
 )
 
 func main() {
