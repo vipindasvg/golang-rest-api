@@ -2,11 +2,11 @@ package repository
 
 import (
 	// "../entity"
-	"github.com/vipindasvg/golang-rest-api/entity"
-	"context"
-	"log"
 	"cloud.google.com/go/firestore"
+	"context"
+	"github.com/vipindasvg/golang-rest-api/entity"
 	"google.golang.org/api/iterator"
+	"log"
 )
 
 type repo struct{}
@@ -16,8 +16,8 @@ func NewFirestoreRepository() PostRepository {
 }
 
 const (
-	projectId  string= "golang-gorilla"
-	collectionName string= "contents"
+	projectId      string = "golang-gorilla"
+	collectionName string = "contents"
 )
 
 func (*repo) Save(post *entity.Post) (*entity.Post, error) {
@@ -29,9 +29,9 @@ func (*repo) Save(post *entity.Post) (*entity.Post, error) {
 	}
 	defer client.Close()
 	_, _, err = client.Collection(collectionName).Add(ctx, map[string]interface{}{
-		"ID": post.ID,
+		"ID":    post.ID,
 		"Title": post.Title,
-		"Text": post.Text,
+		"Text":  post.Text,
 	})
 
 	if err != nil {
@@ -61,9 +61,9 @@ func (*repo) FindAll() ([]entity.Post, error) {
 			return nil, err
 		}
 		post := entity.Post{
-			ID: doc.Data()["ID"].(int64),
+			ID:    doc.Data()["ID"].(int64),
 			Title: doc.Data()["Title"].(string),
-			Text: doc.Data()["Text"].(string),
+			Text:  doc.Data()["Text"].(string),
 		}
 		posts = append(posts, post)
 	}

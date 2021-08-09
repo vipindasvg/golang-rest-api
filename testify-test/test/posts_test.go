@@ -4,10 +4,10 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"io"
 	"net/http"
 	"net/http/httptest"
 	"reflect"
-	"io"
 
 	"github.com/cucumber/godog"
 	"github.com/vipindasvg/golang-rest-api/controller"
@@ -15,12 +15,13 @@ import (
 
 type apiFeature struct {
 	resp *httptest.ResponseRecorder
-	body    io.Reader
+	body io.Reader
 }
 
 var (
 	postController controller.PostController = controller.NewPostController()
 )
+
 func (a *apiFeature) resetResponse(*godog.Scenario) {
 	a.resp = httptest.NewRecorder()
 }

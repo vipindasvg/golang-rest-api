@@ -1,11 +1,11 @@
 package controller
 
 import (
-	"math/rand"
 	"encoding/json"
-	"net/http"
 	"fmt"
-	
+	"math/rand"
+	"net/http"
+
 	"github.com/vipindasvg/golang-rest-api/entity"
 	"github.com/vipindasvg/golang-rest-api/service"
 )
@@ -18,7 +18,7 @@ type controller struct{}
 
 type PostController interface {
 	AddPost(resp http.ResponseWriter, req *http.Request)
-	GetPosts(resp http.ResponseWriter, req *http.Request) 
+	GetPosts(resp http.ResponseWriter, req *http.Request)
 }
 
 func NewPostController() PostController {
@@ -27,18 +27,18 @@ func NewPostController() PostController {
 
 func (*controller) GetPosts(resp http.ResponseWriter, req *http.Request) {
 	resp.Header().Set("Content-type", "Application/json")
-	posts, err := postService.FindAll() 
+	posts, err := postService.FindAll()
 	_, err = json.Marshal(posts)
 	if err != nil {
 		resp.WriteHeader(http.StatusInternalServerError)
 		resp.Write([]byte(`{"error":"Error Marshalling Post Array"}`))
-		return 
+		return
 	}
 	resp.WriteHeader(http.StatusOK)
 	json.NewEncoder(resp).Encode(posts)
 }
 
-func (*controller) AddPost(resp http.ResponseWriter, req *http.Request)  {
+func (*controller) AddPost(resp http.ResponseWriter, req *http.Request) {
 	fmt.Println("hi")
 	fmt.Println(req.Body)
 	var post entity.Post
@@ -50,19 +50,19 @@ func (*controller) AddPost(resp http.ResponseWriter, req *http.Request)  {
 		return
 	}
 	post.ID = rand.Int63()
-	err =postService.Validate(&post)
+	err = postService.Validate(&post)
 	fmt.Println(err)
 	if err != nil {
 		resp.WriteHeader(http.StatusInternalServerError)
 		resp.Write([]byte(`{"error":"Validation error"}`))
-		return  
+		return
 	}
-	result, err :=	postService.Create(&post)
+	result, err := postService.Create(&post)
 	fmt.Println(err)
 	if err != nil {
 		resp.WriteHeader(http.StatusInternalServerError)
 		resp.Write([]byte(`{"error":"creation error"}`))
-		return 
+		return
 	}
 	//postService.Create(&post)
 	resp.WriteHeader(http.StatusOK)
