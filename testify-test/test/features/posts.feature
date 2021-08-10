@@ -1,6 +1,6 @@
 # file: posts.feature
-Feature: get posts
-  I need to be able to request list of posts
+Feature: Test Golang rest apis
+  I need to test all golang rest apis
 
   Scenario: does not allow PUT method
     When I send "PUT" request to "/posts"
@@ -11,7 +11,7 @@ Feature: get posts
     Then the response code should be 405  
 
   Scenario: should create post record
-    And I have following request body:
+    Given I have following request body:
       """
       {"title": "Vikhil","text": "Das"}
       """

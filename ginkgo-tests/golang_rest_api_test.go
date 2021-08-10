@@ -2,7 +2,6 @@ package main_test
 
 import (
 	"bytes"
-	"fmt"
 	"net/http"
 
 	. "github.com/bunniesandbeatings/goerkin"
@@ -36,7 +35,7 @@ var _ = Describe("Testing GolangRestApi", func() {
 			w.Code = ws.Code
 		})
 
-		define.And("^I have following request body:$", func() {
+		define.Given("^I have following request body:$", func() {
 			jsonStr = []byte(`{"title":"test product", "text": "vipindas"}`)
 		})
 
@@ -91,7 +90,7 @@ var _ = Describe("Testing GolangRestApi", func() {
 
 	Scenario("should create post record", func() {
 
-		steps.And("I have following request body:")
+		steps.Given("I have following request body:")
 
 		steps.When("I send 'POST' request to '/posts'")
 

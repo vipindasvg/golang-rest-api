@@ -11,7 +11,7 @@ Feature: get posts
     Then the response code should be 405  
 
   Scenario: should create post record
-    And I have following request body:
+    Given I have following request body:
       """
       {"title": "Vikhil","text": "Das"}
       """
