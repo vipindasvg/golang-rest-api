@@ -8,7 +8,6 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"reflect"
-
 	"github.com/cucumber/godog"
 	"github.com/vipindasvg/golang-rest-api/controller"
 )
@@ -16,6 +15,7 @@ import (
 type apiFeature struct {
 	resp *httptest.ResponseRecorder
 	body io.Reader
+	
 }
 
 var (
@@ -64,7 +64,7 @@ func (a *apiFeature) iHaveFollowingRequestBody(body *godog.DocString) error {
 
 	return nil
 }
-
+	
 func (a *apiFeature) theResponseCodeShouldBe(code int) error {
 	if code != a.resp.Code {
 		return fmt.Errorf("expected response code to be: %d, but actual is: %d", code, a.resp.Code)
